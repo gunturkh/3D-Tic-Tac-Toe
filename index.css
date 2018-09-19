@@ -1,0 +1,102 @@
+.spaceRow {
+    clear: both;
+    padding-top: 40px;
+  }
+
+  .row {
+    clear: both;
+  }
+  
+  .tile, .space { 
+    position: relative; height: 40px; width: 40px;
+    float: left; margin: 1px 1px; white-space: nowrap;
+    line-height: 40px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px; 
+  }      
+  .tile { background: rgba(0, 0, 0, 0.5); } 
+  .space { background: white; }
+  .R { background: #F00000; }
+  .B { background: #0000CC; }
+  
+  #header { 
+    border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF; 
+    width: auto;
+    height: 41px;
+  }      
+  #title { padding: 2px 2px 2px 15px; font-size: 32px; font-weight: bold; }
+  #options { position: relative; margin-top: 20px; margin-left: 500px; }  
+  #board { margin-top: 40px; }               
+  
+  canvas {
+    margin-top: -450px;
+    margin-left: 50px;
+  }
+  
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    }
+  
+  li {
+    float: left;
+    position: relative;
+    width: 100px;
+    }
+  
+  li ul {
+    display: none;
+    position: absolute; 
+    top: 1em;
+    left: 0;
+    }
+  
+  li > ul {
+      top: auto;
+      left: auto;
+      }
+  
+  li:hover ul { display: block; }
+  
+  ul, p { font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Tahoma, sans-serif;; font-size: 12px; }
+          
+  li.select { margin-top: 0px; }
+  li.select, li.select > ul { 
+      background: #FFFFFF;
+      border: 1px solid #B8B8B8;
+  }
+  li#player1 { border-right: 8px solid #F00000; }
+  li#player2 { border-right: 8px solid #0000CC; margin-left: 10px; }
+  
+  div.select { margin-left: 5px; color: #000000; }
+  li.option { 
+      background: #D8D8D8; 
+      padding-left: 5px;
+      color: #000000;
+  }
+  li.option:hover { background: #E8E8E8; font-weight: 200 }
+  
+  #dialogDiv { 
+    border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
+    border: 2px solid grey;
+    background: #C8C8C8;
+    color: black; 
+    width: 250px;
+    height: 30px;
+    position: absolute;
+    margin-top: -258px;
+    margin-left: 225px;
+  }       
+  #dialogText { 
+    margin-left: 8px;
+    margin-top: 6px; 
+  }
+  #newGameButton { 
+    float: right; 
+    margin-right: 8px;
+    margin-top: -18px;
+  }

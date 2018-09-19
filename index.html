@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="index.css">
+  <title>3D Tic Tac Toe</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="header">
+      <h1 id="title" >3D Tic Tac Toe</h1>
+      
+      <div id="options">    
+        <ul>
+          <li id="player1" class="select">
+            <div class="select">Human</div>
+            <ul>
+              <li class="option">Human</li>
+              <li class="option">Computer</li>
+            </ul>
+          </li>
+        </ul>
+        <ul>
+          <li id="player2" class="select">
+            <div class="select">Computer</div>
+            <ul>
+              <li class="option">Human</li>
+              <li class="option">Computer</li>
+            </ul>
+          </li>
+        </ul>          
+      </div>
+    </div>      
+    
+    <div id="board">
+      <div class="row">
+        <div class="tile" boardx="0" boardy="0" boardz="2"></div>
+        <div class="tile" boardx="1" boardy="0" boardz="2"></div>
+        <div class="tile" boardx="2" boardy="0" boardz="2"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="1" boardz="2"></div>
+        <div class="tile" boardx="1" boardy="1" boardz="2"></div>
+        <div class="tile" boardx="2" boardy="1" boardz="2"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="2" boardz="2"></div>
+        <div class="tile" boardx="1" boardy="2" boardz="2"></div>
+        <div class="tile" boardx="2" boardy="2" boardz="2"></div>
+      </div>
+    </div>
+    
+    <div class="spaceRow">
+      <div class="row">
+        <div class="tile" boardx="0" boardy="0" boardz="1"></div>
+        <div class="tile" boardx="1" boardy="0" boardz="1"></div>
+        <div class="tile" boardx="2" boardy="0" boardz="1"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="1" boardz="1"></div>
+        <div class="tile" boardx="1" boardy="1" boardz="1"></div>
+        <div class="tile" boardx="2" boardy="1" boardz="1"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="2" boardz="1"></div>
+        <div class="tile" boardx="1" boardy="2" boardz="1"></div>
+        <div class="tile" boardx="2" boardy="2" boardz="1"></div>
+      </div>
+    </div>
+    
+    <div class="spaceRow">
+      <div class="row">
+        <div class="tile" boardx="0" boardy="0" boardz="0"></div>
+        <div class="tile" boardx="1" boardy="0" boardz="0"></div>
+        <div class="tile" boardx="2" boardy="0" boardz="0"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="1" boardz="0"></div>
+        <div class="tile" boardx="1" boardy="1" boardz="0"></div>
+        <div class="tile" boardx="2" boardy="1" boardz="0"></div>
+      </div>
+      <div class="row">
+        <div class="tile" boardx="0" boardy="2" boardz="0"></div>
+        <div class="tile" boardx="1" boardy="2" boardz="0"></div>
+        <div class="tile" boardx="2" boardy="2" boardz="0"></div>
+      </div>
+    </div>                                  
+    
+    <canvas id="output" width="500" height="500">
+      You need HTML 5 enabled
+    </canvas>
+    
+    <div id="dialogDiv" style="display: none">
+      <p id="dialogText">Play another game?</p>
+      <button id="newGameButton" type="button">New Game</button>
+    </div>                 
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
+  <script src="index.js"></script>
+</body>
+</html>
+
