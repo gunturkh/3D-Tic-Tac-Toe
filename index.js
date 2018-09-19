@@ -1,6 +1,6 @@
-var paths = [];      
+let paths = [];      
       
-// Everything in the bottom level (z=0)
+//Bottom level (z=0)
 paths[0] = [[0,0,0],[1,0,0],[2,0,0]];
 paths[1] = [[0,1,0],[1,1,0],[2,1,0]];
 paths[2] = [[0,2,0],[1,2,0],[2,2,0]];
@@ -10,7 +10,7 @@ paths[5] = [[2,0,0],[2,1,0],[2,2,0]];
 paths[6] = [[0,0,0],[1,1,0],[2,2,0]];
 paths[7] = [[2,0,0],[1,1,0],[0,2,0]];
 
-// Everything in the middle level (z=1)
+//Middle level (z=1)
 paths[8] = [[0,0,1],[1,0,1],[2,0,1]];
 paths[9] = [[0,1,1],[1,1,1],[2,1,1]];
 paths[10] = [[0,2,1],[1,2,1],[2,2,1]];
@@ -20,7 +20,7 @@ paths[13] = [[2,0,1],[2,1,1],[2,2,1]];
 paths[14] = [[0,0,1],[1,1,1],[2,2,1]];
 paths[15] = [[2,0,1],[1,1,1],[0,2,1]];
 
-// Everything in the top layer (z=2)
+//Top level (z=2)
 paths[16] = [[0,0,2],[1,0,2],[2,0,2]];
 paths[17] = [[0,1,2],[1,1,2],[2,1,2]];
 paths[18] = [[0,2,2],[1,2,2],[2,2,2]];
@@ -72,8 +72,8 @@ function computeColor(x,y,z) {
 }
 
 function changeColor(x,y,z,color) {
-  var before = this.grid.substr(0,(z*9)+(y*3)+x);
-  var after = this.grid.substr((z*9)+(y*3)+x + 1);
+  let before = this.grid.substr(0,(z*9)+(y*3)+x);
+  let after = this.grid.substr((z*9)+(y*3)+x + 1);
   this.grid = before + color + after;
 }
 
@@ -92,11 +92,11 @@ function changePlayer() {
 }
 
 function checkForWinner() {        
-  for (var i=0; i < paths.length; i++) {
+  for (let i=0; i < paths.length; i++) {
     
-    var first = paths[i][0];
-    var second = paths[i][1];
-    var third = paths[i][2];
+    let first = paths[i][0];
+    let second = paths[i][1];
+    let third = paths[i][2];
     
     if (this.color(first[0],first[1],first[2]) == this.color(second[0],second[1],second[2]) &&
     this.color(second[0],second[1],second[2]) == this.color(third[0],third[1],third[2]) &&
@@ -121,7 +121,7 @@ function checkForWinner() {
 }
 
 function checkDraw() {
-  var result =this.grid.indexOf("G") < 0;
+  let result =this.grid.indexOf("G") < 0;
   if (result) {
     this.gameOver = true;
     
@@ -147,10 +147,10 @@ function board(input, player1, player2) {
 }
 
 function drawCubeBottom(x, y, sides) {
-  var canvas = document.getElementById("output");
-  var context = canvas.getContext("2d");
+  let canvas = document.getElementById("output");
+  let context = canvas.getContext("2d");
   
-  var gradient = context.createLinearGradient(0,0,0,360);
+  let gradient = context.createLinearGradient(0,0,0,360);
   gradient.addColorStop(0, "#000000");
   gradient.addColorStop(1, "grey");
   
@@ -174,8 +174,8 @@ function drawCubeBottom(x, y, sides) {
 }
 
 function drawOuterCube(x, y, sides) {          
-  var canvas = document.getElementById("output");
-  var context = canvas.getContext("2d");
+  let canvas = document.getElementById("output");
+  let context = canvas.getContext("2d");
   
   context.beginPath();
                
@@ -191,17 +191,17 @@ function drawOuterCube(x, y, sides) {
 }
 
 function drawInnerCube(x, y, sides, frontLight, frontDark, rightLight, rightDark, topLight, topDark) {
-  var canvas = document.getElementById("output");
-  var context = canvas.getContext("2d");        
+  let canvas = document.getElementById("output");
+  let context = canvas.getContext("2d");        
   
-  var front = context.createLinearGradient(x, y-sides, x, y);
+  let front = context.createLinearGradient(x, y-sides, x, y);
   front.addColorStop(0, frontLight);
   front.addColorStop(1, frontDark);
             
   context.fillStyle = front;
   context.fillRect(x-(sides/2),y-(sides/2),sides,sides);                
   
-  var top = context.createLinearGradient(x, y - sides, x + (sides * 1.5), y - (sides * 1.5));
+  let top = context.createLinearGradient(x, y - sides, x + (sides * 1.5), y - (sides * 1.5));
   top.addColorStop(0, topDark);
   top.addColorStop(1, topLight);          
   
@@ -215,7 +215,7 @@ function drawInnerCube(x, y, sides, frontLight, frontDark, rightLight, rightDark
   context.closePath();
   context.fill();               
   
-  var right = context.createLinearGradient(x + sides, y - (sides * 1.5), x + sides, y);
+  let right = context.createLinearGradient(x + sides, y - (sides * 1.5), x + sides, y);
   right.addColorStop(0, rightLight);
   right.addColorStop(1, rightDark);
   
@@ -237,11 +237,11 @@ function draw(board, selectedX, selectedY, selectedZ) {
      selectedZ = -1;
   }         
   
-  var canvas = document.getElementById("output");
+  let canvas = document.getElementById("output");
   canvas.width = canvas.width;
   
-  var context = canvas.getContext("2d");
-  var gradient = context.createLinearGradient(0,0,0,360);
+  let context = canvas.getContext("2d");
+  let gradient = context.createLinearGradient(0,0,0,360);
   gradient.addColorStop(0, "#888888");
   gradient.addColorStop(1, "#B0B0B0");
   
@@ -253,32 +253,32 @@ function draw(board, selectedX, selectedY, selectedZ) {
   
   context.shadowBlur = 0;     
   
-  var redFrontLight = "#FB0000";
-  var redFrontDark = "#BB0000";        
-  var redRightLight = "#FF4535";
-  var redRightDark = "#D41201";        
-  var redTopLight = "#FF5445";
-  var redTopDark = "#FB0000";
+  let redFrontLight = "#FB0000";
+  let redFrontDark = "#BB0000";        
+  let redRightLight = "#FF4535";
+  let redRightDark = "#D41201";        
+  let redTopLight = "#FF5445";
+  let redTopDark = "#FB0000";
   
-  var blueFrontLight = "#0000D4";
-  var blueFrontDark = "#000099";        
-  var blueRightLight = "#2C2CD4";
-  var blueRightDark = "#0000BA";        
-  var blueTopLight = "#3E3ED6";
-  var blueTopDark = "#0000D4";                        
+  let blueFrontLight = "#0000D4";
+  let blueFrontDark = "#000099";        
+  let blueRightLight = "#2C2CD4";
+  let blueRightDark = "#0000BA";        
+  let blueTopLight = "#3E3ED6";
+  let blueTopDark = "#0000D4";                        
   
-  var sides = 80;
-  var spacing = 6;
-  var baseX = 160;
-  var baseY = 320;
+  let sides = 80;
+  let spacing = 6;
+  let baseX = 160;
+  let baseY = 320;
   for (x=0;x<=2;x++) {
     for (y=0;y<=2;y++) {
       for (z=0;z<=2;z++) {
-        var color = board.color(x,y,z);
-        var xOutline = baseX + (x * sides) - (y * (sides / 2)) - (sides / 2);
-        var yOutline = baseY + (y * (sides/2)) - (z * sides) + (sides / 2);
-        var xCoordinate = baseX + (spacing/2) + (x * sides) - (y * (sides / 2));
-        var yCoordinate = baseY - spacing + (y * (sides/2)) - (z * sides);              
+        let color = board.color(x,y,z);
+        let xOutline = baseX + (x * sides) - (y * (sides / 2)) - (sides / 2);
+        let yOutline = baseY + (y * (sides/2)) - (z * sides) + (sides / 2);
+        let xCoordinate = baseX + (spacing/2) + (x * sides) - (y * (sides / 2));
+        let yCoordinate = baseY - spacing + (y * (sides/2)) - (z * sides);              
         
         if (x == selectedX && y == selectedY && z == 0) {
           drawCubeBottom(xOutline, yOutline, sides);
@@ -311,8 +311,8 @@ function pathStatus(board, first, second, third) {
 }
 
 function divide ( numerator, denominator ) {
-  var remainder = numerator % denominator;
-  var quotient = ( numerator - remainder ) / denominator;
+  let remainder = numerator % denominator;
+  let quotient = ( numerator - remainder ) / denominator;
   
   return quotient;
 }
@@ -325,46 +325,46 @@ function move(x,y,z) {
 
 function doComputerMove(board) {        
   
-  var priorities = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  let priorities = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   if (!updatePrioritiesForWinning(board, priorities)) {
     if (!updatePrioritiesForBlockingOpponentFromWinning(board, priorities)) {
       updatePrioritesForWinningAndBlockingPaths(board, priorities);  
     }
   }        
   
-  var maximum = -1;
-  for (var i=0; i < priorities.length; i++) {
+  let maximum = -1;
+  for (let i=0; i < priorities.length; i++) {
     if (priorities[i] > maximum) {
       maximum = priorities[i];
     }
   }        
   
   // More than one entry could have the maximum priority
-  var entriesContainingTheMaximumPriority = [];
-  for (var i=0; i < priorities.length; i++) {
+  let entriesContainingTheMaximumPriority = [];
+  for (let i=0; i < priorities.length; i++) {
     if (priorities[i] == maximum) {
       entriesContainingTheMaximumPriority.push(i);
     }
   }                
   
-  var indexOfChosenPlay = Math.floor(Math.random() * entriesContainingTheMaximumPriority.length);
-  var chosenPlay = entriesContainingTheMaximumPriority[indexOfChosenPlay];        
+  let indexOfChosenPlay = Math.floor(Math.random() * entriesContainingTheMaximumPriority.length);
+  let chosenPlay = entriesContainingTheMaximumPriority[indexOfChosenPlay];        
   
-  var z = divide(chosenPlay,9);                
-  var y = divide(chosenPlay - (z*9),3);
-  var x = chosenPlay % 3;                
+  let z = divide(chosenPlay,9);                
+  let y = divide(chosenPlay - (z*9),3);
+  let x = chosenPlay % 3;                
   
   board.setColor(x,y,z,board.currentPlayer);
   return new move(x,y,z);
 } 
 
 function updatePrioritiesForWinning(board, priorities) {
-  for (var i=0; i < paths.length; i++) {
-    var first = paths[i][0];
-    var second = paths[i][1];
-    var third = paths[i][2];
+  for (let i=0; i < paths.length; i++) {
+    let first = paths[i][0];
+    let second = paths[i][1];
+    let third = paths[i][2];
     
-    var path = new pathStatus(board, first, second, third);                    
+    let path = new pathStatus(board, first, second, third);                    
     if (path.friendly == 2 && path.neutral == 1) {
       if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
       if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
@@ -376,12 +376,12 @@ function updatePrioritiesForWinning(board, priorities) {
 }     
 
 function updatePrioritiesForBlockingOpponentFromWinning(board, priorities) {
-  for (var i=0; i < paths.length; i++) {
-    var first = paths[i][0];
-    var second = paths[i][1];
-    var third = paths[i][2];
+  for (let i=0; i < paths.length; i++) {
+    let first = paths[i][0];
+    let second = paths[i][1];
+    let third = paths[i][2];
     
-    var path = new pathStatus(board, first, second, third);
+    let path = new pathStatus(board, first, second, third);
     if (path.enemy == 2 && path.neutral == 1) {
       if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
       if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
@@ -393,12 +393,12 @@ function updatePrioritiesForBlockingOpponentFromWinning(board, priorities) {
 }
 
 function updatePrioritesForWinningAndBlockingPaths(board, priorities) {
-  for (var i=0; i < paths.length; i++) {
-    var first = paths[i][0];
-    var second = paths[i][1];
-    var third = paths[i][2];
+  for (let i=0; i < paths.length; i++) {
+    let first = paths[i][0];
+    let second = paths[i][1];
+    let third = paths[i][2];
     
-    var path = new pathStatus(board, first, second, third);
+    let path = new pathStatus(board, first, second, third);
     if (path.neutral == 2) {
       if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
       if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
@@ -409,8 +409,8 @@ function updatePrioritesForWinningAndBlockingPaths(board, priorities) {
 
 function pcVsPc(board) {
   if (!board.gameOver) {        
-    var move = doComputerMove(board);
-    var selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
+    let move = doComputerMove(board);
+    let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
     $(selector).addClass(board.currentPlayer);                
     draw(board);          
   }  
@@ -424,9 +424,9 @@ function pcVsPc(board) {
 function startNewGame() {
   $("#dialogDiv").attr("style", "display:none");
   
-  var player1 = $("#player1").children("div").html().toLowerCase();
-  var player2 = $("#player2").children("div").html().toLowerCase();
-  var newBoard = new board("GGGGGGGGGGGGGGGGGGGGGGGGGGG", player1, player2);
+  let player1 = $("#player1").children("div").html().toLowerCase();
+  let player2 = $("#player2").children("div").html().toLowerCase();
+  let newBoard = new board("GGGGGGGGGGGGGGGGGGGGGGGGGGG", player1, player2);
   $(".tile").removeClass("R");
   $(".tile").removeClass("B");
   draw(newBoard);                
@@ -434,8 +434,8 @@ function startNewGame() {
   if (newBoard.player1 == "computer" && newBoard.player2 == "computer") {
     setTimeout(function() { pcVsPc(newBoard) },1000); 
   } else if (newBoard.player1 == "computer") {
-    var move = doComputerMove(newBoard);
-    var selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
+    let move = doComputerMove(newBoard);
+    let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
     $(selector).addClass(newBoard.currentPlayer);        
     draw(newBoard);
     newBoard.endTurn();            
@@ -446,16 +446,16 @@ function startNewGame() {
 
 jQuery(function() {
                         
-  var currentBoard = startNewGame();
+  let currentBoard = startNewGame();
   
   $(".tile").hover(
     function() {
       if (!currentBoard.gameOver) {
-        var x = parseInt($(this).attr("boardx"));
-        var y = parseInt($(this).attr("boardy"));
-        var z = parseInt($(this).attr("boardz"));
+        let x = parseInt($(this).attr("boardx"));
+        let y = parseInt($(this).attr("boardy"));
+        let z = parseInt($(this).attr("boardz"));
         
-        var tempBoard = new board(currentBoard.grid, currentBoard.player1, currentBoard.player2);
+        let tempBoard = new board(currentBoard.grid, currentBoard.player1, currentBoard.player2);
         if (currentBoard.color(x,y,z) == 'G') {                          
           tempBoard.setColor(x,y,z,currentBoard.currentPlayer);              
         } 
@@ -471,9 +471,9 @@ jQuery(function() {
   
   $(".tile").click(function() { 
     if (!currentBoard.gameOver) {                    
-      var x = parseInt($(this).attr("boardx"));
-      var y = parseInt($(this).attr("boardy"));
-      var z = parseInt($(this).attr("boardz"));
+      let x = parseInt($(this).attr("boardx"));
+      let y = parseInt($(this).attr("boardy"));
+      let z = parseInt($(this).attr("boardz"));
       
       if (currentBoard.color(x,y,z) == 'G') {            
         $(this).addClass(currentBoard.currentPlayer);
@@ -487,8 +487,8 @@ jQuery(function() {
           currentBoard.endTurn();         
           if ((currentBoard.currentPlayer == 'R' && currentBoard.player1 == "computer") ||
               (currentBoard.currentPlayer == 'B' && currentBoard.player2 == "computer")) {
-                var move = doComputerMove(currentBoard);
-                var selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
+                let move = doComputerMove(currentBoard);
+                let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
                 $(selector).addClass(currentBoard.currentPlayer);
                 currentBoard.endTurn();
                 draw(currentBoard);

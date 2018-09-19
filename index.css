@@ -1,11 +1,13 @@
-.spaceRow {
+/* .spaceRow {
     clear: both;
     padding-top: 40px;
+    margin-left: 250px;
+    position: relative;
   }
 
   .row {
     clear: both;
-  }
+  } */
   
   .tile, .space { 
     position: relative; height: 40px; width: 40px;
@@ -15,25 +17,23 @@
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px; 
   }      
-  .tile { background: rgba(0, 0, 0, 0.5); } 
+  .tile { background: rgba(0, 0, 0, 0.411); } 
   .space { background: white; }
   .R { background: #F00000; }
   .B { background: #0000CC; }
   
   #header { 
     border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.411);
     color: #FFFFFF; 
     width: auto;
-    height: 41px;
+    height: 70px;
   }      
-  #title { padding: 2px 2px 2px 15px; font-size: 32px; font-weight: bold; }
-  #options { position: relative; margin-top: 20px; margin-left: 500px; }  
-  #board { margin-top: 40px; }               
+  #title { padding: 2px 2px 2px 15px; font-size: 50px; font-weight: bold; }
+  #options { position: relative; margin-top: 10px; }  
+  .board { margin-bottom: 20px; }               
   
   canvas {
-    margin-top: -450px;
-    margin-left: 50px;
   }
   
   ul {
@@ -85,18 +85,13 @@
     border: 2px solid grey;
     background: #C8C8C8;
     color: black; 
-    width: 250px;
-    height: 30px;
-    position: absolute;
-    margin-top: -258px;
-    margin-left: 225px;
+    position: relative;
+   
   }       
   #dialogText { 
-    margin-left: 8px;
-    margin-top: 6px; 
+    width: 150px;
+    height: 20px;
   }
   #newGameButton { 
-    float: right; 
-    margin-right: 8px;
-    margin-top: -18px;
+    margin-bottom: 10px;
   }
