@@ -67,7 +67,7 @@ paths[46] = [[0,2,0],[1,1,1],[2,0,2]];
 paths[47] = [[2,0,0],[1,1,1],[0,2,2]];
 paths[48] = [[2,2,0],[1,1,1],[0,0,2]];
 
-function computeColor(x,y,z) {
+function calculateColor(x,y,z) {
   return this.grid.charAt((z*9)+(y*3)+x);
 }
 
@@ -78,11 +78,8 @@ function changeColor(x,y,z,color) {
 }
 
 function otherPlayerColor() {
-  if (this.currentPlayer == "B") {
-    return "W";
-  } else {
-    return "B";
-  }
+  if (this.currentPlayer == "B") return "W"
+  else return "B"
 }
 
 function changePlayer() {
@@ -91,29 +88,21 @@ function changePlayer() {
   this.currentPlayer = this.otherPlayer();
 }
 
-function checkForWinner() {        
+function checkWinner() {        
   for (let i=0; i < paths.length; i++) {
     
-    let first = paths[i][0];
-    let second = paths[i][1];
-    let third = paths[i][2];
+    let firstBox = paths[i][0];
+    let secondBox = paths[i][1];
+    let thirdBox = paths[i][2];
     
-    if (this.color(first[0],first[1],first[2]) == this.color(second[0],second[1],second[2]) &&
-    this.color(second[0],second[1],second[2]) == this.color(third[0],third[1],third[2]) &&
-    this.color(first[0],first[1],first[2]) == this.color(third[0],third[1],third[2]) &&
-    this.color(third[0],third[1],third[2]) == this.currentPlayer) {
-      this.gameOver = true;
-      console.log(`Paths : ${i}, First[0] : ${first[0]}, First[1] : ${first[1]}, First[2] : ${first[2]}, Color : ${this.color(first[0],first[1],first[2])}`);
-      console.log(`Paths : ${i}, Second[0] : ${second[0]}, Second[1] : ${second[1]}, Second[2] : ${second[2]}, Color : ${this.color(second[0],second[1],second[2])} `);
-      console.log(`Paths : ${i}, Third[0] : ${third[0]}, Third[1] : ${third[1]}, Third[2] : ${third[2]}, Color : ${this.color(third[0],third[1],third[2])}  `);
-      
+    if (this.color(firstBox[0],firstBox[1],firstBox[2]) == this.color(secondBox[0],secondBox[1],secondBox[2]) &&
+    this.color(secondBox[0],secondBox[1],secondBox[2]) == this.color(thirdBox[0],thirdBox[1],thirdBox[2]) &&
+    this.color(firstBox[0],firstBox[1],firstBox[2]) == this.color(thirdBox[0],thirdBox[1],thirdBox[2]) &&
+    this.color(thirdBox[0],thirdBox[1],thirdBox[2]) == this.currentPlayer) {
+      this.gameEnd = true;
           $("#dialogDiv").removeAttr("style");
-          if (this.currentPlayer == "B") {
-            $("#dialogText").text("Black won the game!");
-          } else {
-            $("#dialogText").text("White won the game!");
-          }                
-          
+          if (this.currentPlayer == "B") $("#dialogText").text("Black won the game!");
+          else $("#dialogText").text("White won the game!");
           return true;
         }
   }        
@@ -123,7 +112,7 @@ function checkForWinner() {
 function checkDraw() {
   let result =this.grid.indexOf("G") < 0;
   if (result) {
-    this.gameOver = true;
+    this.gameEnd = true;
     
     $("#dialogDiv").removeAttr("style");
     $("#dialogText").val("The game ended in a draw.");
@@ -137,74 +126,60 @@ function board(input, player1, player2) {
   this.player1 = player1;
   this.player2 = player2;
   
-  this.gameOver = false;
+  this.gameEnd = false;
   this.otherPlayer = otherPlayerColor;
   this.endTurn = changePlayer;
-  this.color = computeColor;      
+  this.color = calculateColor;      
   this.setColor = changeColor;
-  this.winner = checkForWinner;
+  this.winner = checkWinner;
   this.stalemate = checkDraw;
 }
 
-function drawCubeBottom(x, y, sides) {
+function drawBoxBottom(x, y, sides) {
   let canvas = document.getElementById("output");
   let context = canvas.getContext("2d");
-  
   let gradient = context.createLinearGradient(0,0,0,360);
   gradient.addColorStop(0, "#000000");
   gradient.addColorStop(1, "grey");
   
   context.shadowBlur = 10;
   context.shadowColor = "black";
-  
   context.fillStyle = gradient;  
-  
   context.beginPath();
-  
   context.moveTo(x,y);
   context.lineTo(x + (sides/2),y - (sides/2));
   context.lineTo(x + (sides/2) + sides,y - (sides/2));
   context.lineTo(x + sides,y);
   context.lineTo(x,y);
-  
   context.closePath();
   context.fill();
-  
   context.shadowBlur = 0;
 }
 
-function drawOuterCube(x, y, sides) {          
+function drawOuterBox(x, y, sides) {          
   let canvas = document.getElementById("output");
   let context = canvas.getContext("2d");
-  
   context.beginPath();
-               
-  // draw the bottom panel
   context.moveTo(x-(sides/2),y+(sides/2));
   context.lineTo(x+(sides/2),y+(sides/2));
   context.lineTo(x+sides,y);
   context.lineTo(x,y);
   context.lineTo(x-(sides/2),y+(sides/2));
   context.closePath();               
-  
   context.fill();
 }
 
-function drawInnerCube(x, y, sides, frontLight, frontDark, rightLight, rightDark, topLight, topDark) {
+function drawInnerBox(x, y, sides, frontLight, frontDark, rightLight, rightDark, topLight, topDark) {
   let canvas = document.getElementById("output");
   let context = canvas.getContext("2d");        
-  
   let front = context.createLinearGradient(x, y-sides, x, y);
   front.addColorStop(0, frontLight);
   front.addColorStop(1, frontDark);
-            
   context.fillStyle = front;
   context.fillRect(x-(sides/2),y-(sides/2),sides,sides);                
-  
   let top = context.createLinearGradient(x, y - sides, x + (sides * 1.5), y - (sides * 1.5));
   top.addColorStop(0, topDark);
   top.addColorStop(1, topLight);          
-  
   context.fillStyle = top;
   context.beginPath();
   context.moveTo(x-(sides/2),y-(sides/2)); // front top left
@@ -218,7 +193,6 @@ function drawInnerCube(x, y, sides, frontLight, frontDark, rightLight, rightDark
   let right = context.createLinearGradient(x + sides, y - (sides * 1.5), x + sides, y);
   right.addColorStop(0, rightLight);
   right.addColorStop(1, rightDark);
-  
   context.fillStyle = right;
   context.beginPath();
   context.moveTo(x+(sides/2),y-(sides/2)); // front top right
@@ -239,20 +213,16 @@ function draw(board, selectedX, selectedY, selectedZ) {
   
   let canvas = document.getElementById("output");
   canvas.width = canvas.width;
-  
   let context = canvas.getContext("2d");
   let gradient = context.createLinearGradient(0,0,0,360);
   gradient.addColorStop(0, "#000000");
   gradient.addColorStop(1, "#2d2d2d");
-  
   context.shadowBlur = 10;
   context.shadowColor = "black";
-  
   context.fillStyle = gradient;        
-  drawOuterCube(160,320,240);   
-  
-  context.shadowBlur = 0;     
-  
+  drawOuterBox(160,320,240);   
+  context.shadowBlur = 0; 
+      
   let blackFrontLight = "#2d3d56";
   let blackFrontDark = "#192230";        
   let blackRightLight = "#283851";
@@ -281,33 +251,33 @@ function draw(board, selectedX, selectedY, selectedZ) {
         let yCoordinate = baseY - spacing + (y * (sides/2)) - (z * sides);              
         
         if (x == selectedX && y == selectedY && z == 0) {
-          drawCubeBottom(xOutline, yOutline, sides);
+          drawBoxBottom(xOutline, yOutline, sides);
         }
         
         if (color == 'B') {                
-          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), blackFrontLight, blackFrontDark, blackRightLight, blackRightDark, blackTopLight, blackTopDark);                
+          drawInnerBox(xCoordinate, yCoordinate, sides - (spacing * 2), blackFrontLight, blackFrontDark, blackRightLight, blackRightDark, blackTopLight, blackTopDark);                
         }
         if (color == 'W') {
-          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), whiteFrontLight, whiteFrontDark, whiteRightLight, whiteRightDark, whiteTopLight, whiteTopDark);
+          drawInnerBox(xCoordinate, yCoordinate, sides - (spacing * 2), whiteFrontLight, whiteFrontDark, whiteRightLight, whiteRightDark, whiteTopLight, whiteTopDark);
         }             
       }
     }
   }        
 }
 
-function pathStatus(board, first, second, third) {
+function pathStatus(board, firstBox, secondBox, thirdBox) {
   this.friendly = 0;
   this.neutral = 0;
   this.enemy = 0;
-  if (board.color(first[0],first[1],first[2]) == board.currentPlayer) { this.friendly++; }
-  if (board.color(first[0],first[1],first[2]) == "G") { this.neutral++; }
-  if (board.color(first[0],first[1],first[2]) == board.otherPlayer()) { this.enemy++; }
-  if (board.color(second[0],second[1],second[2]) == board.currentPlayer) { this.friendly++; }
-  if (board.color(second[0],second[1],second[2]) == "G") { this.neutral++; }
-  if (board.color(second[0],second[1],second[2]) == board.otherPlayer()) { this.enemy++; }
-  if (board.color(third[0],third[1],third[2]) == board.currentPlayer) { this.friendly++; }
-  if (board.color(third[0],third[1],third[2]) == "G") { this.neutral++; }
-  if (board.color(third[0],third[1],third[2]) == board.otherPlayer()) { this.enemy++; }
+  if (board.color(firstBox[0],firstBox[1],firstBox[2]) == board.currentPlayer) this.friendly++;
+  if (board.color(firstBox[0],firstBox[1],firstBox[2]) == "G")  this.neutral++; 
+  if (board.color(firstBox[0],firstBox[1],firstBox[2]) == board.otherPlayer())  this.enemy++; 
+  if (board.color(secondBox[0],secondBox[1],secondBox[2]) == board.currentPlayer)  this.friendly++; 
+  if (board.color(secondBox[0],secondBox[1],secondBox[2]) == "G")  this.neutral++; 
+  if (board.color(secondBox[0],secondBox[1],secondBox[2]) == board.otherPlayer())  this.enemy++; 
+  if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == board.currentPlayer)  this.friendly++; 
+  if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == "G")  this.neutral++; 
+  if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == board.otherPlayer())  this.enemy++; 
 }
 
 function divide ( numerator, denominator ) {
@@ -323,12 +293,12 @@ function move(x,y,z) {
   this.z = z;
 }
 
-function doComputerMove(board) {        
+function computerMove(board) {        
   
   let priorities = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-  if (!updatePrioritiesForWinning(board, priorities)) {
-    if (!updatePrioritiesForBlockingOpponentFromWinning(board, priorities)) {
-      updatePrioritesForWinningAndBlockingPaths(board, priorities);  
+  if (!winPriorities(board, priorities)) {
+    if (!blockPriorities(board, priorities)) {
+      winAndBlockPriorities(board, priorities);  
     }
   }        
   
@@ -339,7 +309,7 @@ function doComputerMove(board) {
     }
   }        
   
-  // More than one entry could have the maximum priority
+
   let entriesContainingTheMaximumPriority = [];
   for (let i=0; i < priorities.length; i++) {
     if (priorities[i] == maximum) {
@@ -358,66 +328,66 @@ function doComputerMove(board) {
   return new move(x,y,z);
 } 
 
-function updatePrioritiesForWinning(board, priorities) {
+function winPriorities(board, priorities) {
   for (let i=0; i < paths.length; i++) {
-    let first = paths[i][0];
-    let second = paths[i][1];
-    let third = paths[i][2];
+    let firstBox = paths[i][0];
+    let secondBox = paths[i][1];
+    let thirdBox = paths[i][2];
     
-    let path = new pathStatus(board, first, second, third);                    
+    let path = new pathStatus(board, firstBox, secondBox, thirdBox);                    
     if (path.friendly == 2 && path.neutral == 1) {
-      if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
-      if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
-      if (board.color(third[0],third[1],third[2]) == "G") { priorities[third[0] + (third[1]*3) + (third[2]*9)]++; }
+      if (board.color(firstBox[0],firstBox[1],firstBox[2]) == "G") { priorities[firstBox[0] + (firstBox[1]*3) + (firstBox[2]*9)]++; }
+      if (board.color(secondBox[0],secondBox[1],secondBox[2]) == "G") { priorities[secondBox[0] + (secondBox[1]*3) + (secondBox[2]*9)]++; }
+      if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == "G") { priorities[thirdBox[0] + (thirdBox[1]*3) + (thirdBox[2]*9)]++; }
       return true;
     }
   }
   return false;
 }     
 
-function updatePrioritiesForBlockingOpponentFromWinning(board, priorities) {
+function blockPriorities(board, priorities) {
   for (let i=0; i < paths.length; i++) {
-    let first = paths[i][0];
-    let second = paths[i][1];
-    let third = paths[i][2];
+    let firstBox = paths[i][0];
+    let secondBox = paths[i][1];
+    let thirdBox = paths[i][2];
     
-    let path = new pathStatus(board, first, second, third);
+    let path = new pathStatus(board, firstBox, secondBox, thirdBox);
     if (path.enemy == 2 && path.neutral == 1) {
-      if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
-      if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
-      if (board.color(third[0],third[1],third[2]) == "G") { priorities[third[0] + (third[1]*3) + (third[2]*9)]++; }
+      if (board.color(firstBox[0],firstBox[1],firstBox[2]) == "G") { priorities[firstBox[0] + (firstBox[1]*3) + (firstBox[2]*9)]++; }
+      if (board.color(secondBox[0],secondBox[1],secondBox[2]) == "G") { priorities[secondBox[0] + (secondBox[1]*3) + (secondBox[2]*9)]++; }
+      if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == "G") { priorities[thirdBox[0] + (thirdBox[1]*3) + (thirdBox[2]*9)]++; }
       return true;
     } 
   }
   return false;
 }
 
-function updatePrioritesForWinningAndBlockingPaths(board, priorities) {
+function winAndBlockPriorities(board, priorities) {
   for (let i=0; i < paths.length; i++) {
-    let first = paths[i][0];
-    let second = paths[i][1];
-    let third = paths[i][2];
+    let firstBox = paths[i][0];
+    let secondBox = paths[i][1];
+    let thirdBox = paths[i][2];
     
-    let path = new pathStatus(board, first, second, third);
+    let path = new pathStatus(board, firstBox, secondBox, thirdBox);
     if (path.neutral == 2) {
-      if (board.color(first[0],first[1],first[2]) == "G") { priorities[first[0] + (first[1]*3) + (first[2]*9)]++; }
-      if (board.color(second[0],second[1],second[2]) == "G") { priorities[second[0] + (second[1]*3) + (second[2]*9)]++; }
-      if (board.color(third[0],third[1],third[2]) == "G") { priorities[third[0] + (third[1]*3) + (third[2]*9)]++; }
+      if (board.color(firstBox[0],firstBox[1],firstBox[2]) == "G") { priorities[firstBox[0] + (firstBox[1]*3) + (firstBox[2]*9)]++; }
+      if (board.color(secondBox[0],secondBox[1],secondBox[2]) == "G") { priorities[secondBox[0] + (secondBox[1]*3) + (secondBox[2]*9)]++; }
+      if (board.color(thirdBox[0],thirdBox[1],thirdBox[2]) == "G") { priorities[thirdBox[0] + (thirdBox[1]*3) + (thirdBox[2]*9)]++; }
     }
   }
 }
 
-function pcVsPc(board) {
-  if (!board.gameOver) {        
-    let move = doComputerMove(board);
+function computerVsComputer(board) {
+  if (!board.gameEnd) {        
+    let move = computerMove(board);
     let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
     $(selector).addClass(board.currentPlayer);                
     draw(board);          
   }  
   
-  if (!board.gameOver) {
+  if (!board.gameEnd) {
     board.endTurn();
-    setTimeout(function() { pcVsPc(board) },1000);
+    setTimeout(function() { computerVsComputer(board) },1000);
   }
 }
 
@@ -432,9 +402,9 @@ function startNewGame() {
   draw(newBoard);                
               
   if (newBoard.player1 == "computer" && newBoard.player2 == "computer") {
-    setTimeout(function() { pcVsPc(newBoard) },1000); 
+    setTimeout(function() { computerVsComputer(newBoard) },1000); 
   } else if (newBoard.player1 == "computer") {
-    let move = doComputerMove(newBoard);
+    let move = computerMove(newBoard);
     let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
     $(selector).addClass(newBoard.currentPlayer);        
     draw(newBoard);
@@ -450,7 +420,7 @@ jQuery(()=> {
   
   $(".tile").hover(
     function() {
-      if (!currentBoard.gameOver) {
+      if (!currentBoard.gameEnd) {
         let x = parseInt($(this).attr("boardx"));
         let y = parseInt($(this).attr("boardy"));
         let z = parseInt($(this).attr("boardz"));
@@ -463,14 +433,14 @@ jQuery(()=> {
       }       
     },
     function() {
-      if (!currentBoard.gameOver) {
+      if (!currentBoard.gameEnd) {
         draw(currentBoard);
       }
     } 
   );    
   
   $(".tile").click(function() { 
-    if (!currentBoard.gameOver) {                    
+    if (!currentBoard.gameEnd) {                    
       let x = parseInt($(this).attr("boardx"));
       let y = parseInt($(this).attr("boardy"));
       let z = parseInt($(this).attr("boardz"));
@@ -486,7 +456,7 @@ jQuery(()=> {
           currentBoard.endTurn();         
           if ((currentBoard.currentPlayer == 'B' && currentBoard.player1 == "computer") ||
               (currentBoard.currentPlayer == 'W' && currentBoard.player2 == "computer")) {
-                let move = doComputerMove(currentBoard);
+                let move = computerMove(currentBoard);
                 let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
                 $(selector).addClass(currentBoard.currentPlayer);
                 currentBoard.endTurn();
@@ -499,7 +469,7 @@ jQuery(()=> {
   
   $("li.option").click(function() {
     $(this).parent().siblings("div").html($(this).text());
-    currentBoard.gameOver = true;
+    currentBoard.gameEnd = true;
     currentBoard = startNewGame();
   });
   
