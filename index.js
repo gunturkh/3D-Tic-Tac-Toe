@@ -78,10 +78,10 @@ function changeColor(x,y,z,color) {
 }
 
 function otherPlayerColor() {
-  if (this.currentPlayer == "R") {
-    return "B";
+  if (this.currentPlayer == "B") {
+    return "W";
   } else {
-    return "R";
+    return "B";
   }
 }
 
@@ -108,10 +108,10 @@ function checkForWinner() {
       console.log(`Paths : ${i}, Third[0] : ${third[0]}, Third[1] : ${third[1]}, Third[2] : ${third[2]}, Color : ${this.color(third[0],third[1],third[2])}  `);
       
           $("#dialogDiv").removeAttr("style");
-          if (this.currentPlayer == "R") {
-            $("#dialogText").text("Red won the game!");
+          if (this.currentPlayer == "B") {
+            $("#dialogText").text("Black won the game!");
           } else {
-            $("#dialogText").text("Blue won the game!");
+            $("#dialogText").text("White won the game!");
           }                
           
           return true;
@@ -133,7 +133,7 @@ function checkDraw() {
 
 function board(input, player1, player2) {
   this.grid = input;
-  this.currentPlayer = "R";
+  this.currentPlayer = "B";
   this.player1 = player1;
   this.player2 = player2;
   
@@ -242,8 +242,8 @@ function draw(board, selectedX, selectedY, selectedZ) {
   
   let context = canvas.getContext("2d");
   let gradient = context.createLinearGradient(0,0,0,360);
-  gradient.addColorStop(0, "#888888");
-  gradient.addColorStop(1, "#B0B0B0");
+  gradient.addColorStop(0, "#000000");
+  gradient.addColorStop(1, "#2d2d2d");
   
   context.shadowBlur = 10;
   context.shadowColor = "black";
@@ -253,19 +253,19 @@ function draw(board, selectedX, selectedY, selectedZ) {
   
   context.shadowBlur = 0;     
   
-  let redFrontLight = "#FB0000";
-  let redFrontDark = "#BB0000";        
-  let redRightLight = "#FF4535";
-  let redRightDark = "#D41201";        
-  let redTopLight = "#FF5445";
-  let redTopDark = "#FB0000";
+  let blackFrontLight = "#2d3d56";
+  let blackFrontDark = "#192230";        
+  let blackRightLight = "#283851";
+  let blackRightDark = "#1f2c42";        
+  let blackTopLight = "#394966";
+  let blackTopDark = "#2e3a51";
   
-  let blueFrontLight = "#0000D4";
-  let blueFrontDark = "#000099";        
-  let blueRightLight = "#2C2CD4";
-  let blueRightDark = "#0000BA";        
-  let blueTopLight = "#3E3ED6";
-  let blueTopDark = "#0000D4";                        
+  let whiteFrontLight = "#e0e2e5";
+  let whiteFrontDark = "#d4d6d8";        
+  let whiteRightLight = "#c9d1d8";
+  let whiteRightDark = "#c2c8ce";        
+  let whiteTopLight = "#d9dee2";
+  let whiteTopDark = "#d2d7db";                        
   
   let sides = 80;
   let spacing = 6;
@@ -284,11 +284,11 @@ function draw(board, selectedX, selectedY, selectedZ) {
           drawCubeBottom(xOutline, yOutline, sides);
         }
         
-        if (color == 'R') {                
-          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), redFrontLight, redFrontDark, redRightLight, redRightDark, redTopLight, redTopDark);                
+        if (color == 'B') {                
+          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), blackFrontLight, blackFrontDark, blackRightLight, blackRightDark, blackTopLight, blackTopDark);                
         }
-        if (color == 'B') {
-          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), blueFrontLight, blueFrontDark, blueRightLight, blueRightDark, blueTopLight, blueTopDark);
+        if (color == 'W') {
+          drawInnerCube(xCoordinate, yCoordinate, sides - (spacing * 2), whiteFrontLight, whiteFrontDark, whiteRightLight, whiteRightDark, whiteTopLight, whiteTopDark);
         }             
       }
     }
@@ -427,8 +427,8 @@ function startNewGame() {
   let player1 = $("#player1").children("div").html().toLowerCase();
   let player2 = $("#player2").children("div").html().toLowerCase();
   let newBoard = new board("GGGGGGGGGGGGGGGGGGGGGGGGGGG", player1, player2);
-  $(".tile").removeClass("R");
   $(".tile").removeClass("B");
+  $(".tile").removeClass("W");
   draw(newBoard);                
               
   if (newBoard.player1 == "computer" && newBoard.player2 == "computer") {
@@ -444,7 +444,7 @@ function startNewGame() {
   return newBoard;
 }
 
-jQuery(function() {
+jQuery(()=> {
                         
   let currentBoard = startNewGame();
   
@@ -482,11 +482,10 @@ jQuery(function() {
         draw(currentBoard);
         
         if (currentBoard.winner() || currentBoard.stalemate()) {
-          //alert("finished");
         } else {
           currentBoard.endTurn();         
-          if ((currentBoard.currentPlayer == 'R' && currentBoard.player1 == "computer") ||
-              (currentBoard.currentPlayer == 'B' && currentBoard.player2 == "computer")) {
+          if ((currentBoard.currentPlayer == 'B' && currentBoard.player1 == "computer") ||
+              (currentBoard.currentPlayer == 'W' && currentBoard.player2 == "computer")) {
                 let move = doComputerMove(currentBoard);
                 let selector = "div[boardx='" + move.x + "'][boardy='" + move.y + "'][boardz='" + move.z + "']";
                 $(selector).addClass(currentBoard.currentPlayer);
